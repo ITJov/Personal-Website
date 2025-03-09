@@ -1617,6 +1617,27 @@ button.mfp-close:hover {
 /*------------------------------------------------
   14. Portfolio
 -------------------------------------------------*/
+
+#bgCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+.section-box {
+  position: relative; 
+  padding: 50px 0; 
+  opacity: 0; 
+  transform: translateY(20px); 
+  transition: opacity 1s, transform 1s;
+}
+
+.section-box.visible{
+  opacity: 1; 
+  transform: translateY(0);
+}
+
 .portfolio-box .portfolio-img {
   position: relative;
   overflow: hidden;
