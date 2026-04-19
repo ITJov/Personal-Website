@@ -6,7 +6,11 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bgCanvas'), antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-document.body.appendChild(renderer.domElement);
+
+// Inisialisasi Controls
+const controls = new TrackballControls(camera, renderer.domElement);
+controls.rotateSpeed = 4.0;
+controls.dynamicDampingFactor = 0.1;
 
 const geometry = new THREE.BufferGeometry();
 const vertices = [];
@@ -23,11 +27,6 @@ const points = new THREE.Points(geometry, material);
 scene.add(points);
 
 camera.position.z = 500;
-let mouseX = 0, mouseY = 0;
-document.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
-    mouseY = -(event.clientY / window.innerHeight - 0.5) * 2;
-});
 
 // Meteor effect
 const meteors = [];
@@ -39,14 +38,15 @@ function createMeteor() {
     meteors.push(meteor);
     scene.add(meteor);
 }
-setInterval(createMeteor, 1000);
+setInterval(createMeteor, 2000); // Diperlambat sedikit agar tidak berat
 
 function animate() {
     requestAnimationFrame(animate);
+    
+    // Update controls setiap frame
+    controls.update(); 
+    
     points.rotation.y += 0.001;
-    camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
-    camera.position.y += (mouseY * 10 - camera.position.y) * 0.05;
-    camera.lookAt(scene.position);
 
     meteors.forEach((meteor, index) => {
         meteor.position.x += 5;
@@ -62,9 +62,9 @@ function animate() {
 }
 animate();
 
-window.addEventListener('scroll', () => {
-    const portfolioSection = document.getElementById('portfolio');
-    if (portfolioSection.getBoundingClientRect().top < window.innerHeight) {
-        portfolioSection.classList.add('visible');
-    }
+// Resize handler agar background tidak pecah saat window diubah
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
