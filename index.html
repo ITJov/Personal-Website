@@ -19,6 +19,32 @@
 	</head>
 
 	<style>
+		/* Memaksa kontainer box memiliki tinggi minimal agar tidak kempes */
+		.portfolio-box {
+		    width: 100% !important;
+		    min-height: 300px; /* Atur sesuai tinggi gambar yang kamu inginkan */
+		    display: block !important;
+		    visibility: visible !important;
+		    opacity: 1 !important;
+		}
+		
+		/* Memaksa gambar di dalam box muncul dan memenuhi lebar */
+		.portfolio-box img {
+		    width: 100% !important;
+		    height: auto !important;
+		    display: block !important;
+		    visibility: visible !important;
+		    opacity: 1 !important;
+		    object-fit: cover; /* Agar gambar tidak gepeng */
+		}
+		
+		/* Memastikan slide Swiper tidak menyembunyikan konten */
+		.portfolio-slider .swiper-slide {
+		    display: flex !important;
+		    justify-content: center;
+		    align-items: center;
+		    overflow: visible !important;
+		}
 		.canvas1{ 
 			background-color: black;
 		}
